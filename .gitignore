@@ -1,0 +1,21 @@
+# Build artifacts
+node_modules/
+
+# IDE
+.idea/
+*.sublime-text
+*.sublime-workspace
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Obsidian plugin skill (dev only)
+obsidian-plugin-skill/
+
+# Claude Code
+.claude/
+
+# npm debug logs
+npm-debug.log*

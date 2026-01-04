@@ -1,0 +1,10 @@
+{
+  "id": "linear-calendar",
+  "name": "Linear Calendar",
+  "version": "1.0.0",
+  "minAppVersion": "1.0.0",
+  "description": "Displays a year-at-a-glance calendar with months as rows and weekday-aligned columns.",
+  "author": "themm",
+  "authorUrl": "",
+  "isDesktopOnly": false
+}
