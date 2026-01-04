@@ -35,7 +35,7 @@ A year-at-a-glance calendar view for [Obsidian](https://obsidian.md) with months
 
 ### Manual Installation
 
-1. Download `main.js`, `manifest.json`, and `styles.css` from the [latest release](https://github.com/yourusername/obsidian-linear-calendar/releases/latest)
+1. Download `main.js`, `manifest.json`, and `styles.css` from the [latest release](https://github.com/TheMMstick/obsidian-linear-calendar/releases/latest)
 2. Create a folder called `linear-calendar` in your vault's `.obsidian/plugins/` directory
 3. Copy the downloaded files into this folder
 4. Reload Obsidian and enable the plugin in Settings > Community Plugins
