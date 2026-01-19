@@ -3,7 +3,7 @@
   "name": "Linear Calendar",
   "version": "1.0.0",
   "minAppVersion": "1.0.0",
-  "description": "A year-at-a-glance linear calendar plugin for Obsidian with weekday-aligned months",
+  "description": "A year-at-a-glance linear calendar with weekday-aligned months.",
   "author": "themm",
   "authorUrl": "",
   "isDesktopOnly": false
