@@ -77,14 +77,14 @@ export default class LinearCalendarPlugin extends Plugin {
 
     this.addCommand({
       id: "open-view",
-      name: "Open linear calendar",
-      callback: () => this.activateView(),
+      name: "Open calendar view",
+      callback: () => void this.activateView(),
     });
 
     this.addSettingTab(new LinearCalendarSettingTab(this.app, this));
 
-    this.addRibbonIcon("calendar-days", "Open linear calendar", () => {
-      this.activateView();
+    this.addRibbonIcon("calendar-days", "Open calendar view", () => {
+      void this.activateView();
     });
   }
 
@@ -146,16 +146,16 @@ class LinearCalendarView extends ItemView {
     this.render();
 
     this.registerEvent(
-      this.app.vault.on("create", () => this.refresh())
+      this.app.vault.on("create", () => void this.refresh())
     );
     this.registerEvent(
-      this.app.vault.on("delete", () => this.refresh())
+      this.app.vault.on("delete", () => void this.refresh())
     );
     this.registerEvent(
-      this.app.vault.on("rename", () => this.refresh())
+      this.app.vault.on("rename", () => void this.refresh())
     );
     this.registerEvent(
-      this.app.metadataCache.on("changed", () => this.refresh())
+      this.app.metadataCache.on("changed", () => void this.refresh())
     );
   }
 
@@ -169,7 +169,7 @@ class LinearCalendarView extends ItemView {
     const files = this.app.vault.getMarkdownFiles();
 
     for (const file of files) {
-      const dates = await this.extractDatesFromFile(file);
+      const dates = this.extractDatesFromFile(file);
       for (const date of dates) {
         const key = this.dateKey(date);
         if (!this.events.has(key)) {
@@ -184,7 +184,7 @@ class LinearCalendarView extends ItemView {
     }
   }
 
-  private async extractDatesFromFile(file: TFile): Promise<Date[]> {
+  private extractDatesFromFile(file: TFile): Date[] {
     const dates: Date[] = [];
     const settings = this.plugin.settings;
 
@@ -378,7 +378,7 @@ class LinearCalendarView extends ItemView {
       this.plugin.settings.scaleX = this.plugin.settings.defaultScaleX;
       this.plugin.settings.scaleY = this.plugin.settings.defaultScaleY;
       this.plugin.settings.fontScale = this.plugin.settings.defaultFontScale;
-      this.plugin.saveSettings();
+      void this.plugin.saveSettings();
       this.render();
     });
   }
@@ -389,7 +389,7 @@ class LinearCalendarView extends ItemView {
     const max = axis === "font" ? 3 : 5;
     const newScale = Math.max(min, Math.min(max, this.plugin.settings[key] + delta));
     this.plugin.settings[key] = Math.round(newScale * 10) / 10;
-    this.plugin.saveSettings();
+    void this.plugin.saveSettings();
     this.render();
   }
 
@@ -420,11 +420,11 @@ class LinearCalendarView extends ItemView {
     prevBtn.setText("<");
     prevBtn.addEventListener("click", () => {
       this.plugin.settings.year = currentYear - 1;
-      this.plugin.saveSettings();
+      void this.plugin.saveSettings();
       this.render();
     });
 
-    const yearLabel = selector.createEl("span", {
+    selector.createEl("span", {
       cls: "linear-calendar-year-label",
       text: String(currentYear),
     });
@@ -438,7 +438,7 @@ class LinearCalendarView extends ItemView {
     nextBtn.setText(">");
     nextBtn.addEventListener("click", () => {
       this.plugin.settings.year = currentYear + 1;
-      this.plugin.saveSettings();
+      void this.plugin.saveSettings();
       this.render();
     });
 
@@ -452,7 +452,7 @@ class LinearCalendarView extends ItemView {
     todayBtn.setText("Today");
     todayBtn.addEventListener("click", () => {
       this.plugin.settings.year = new Date().getFullYear();
-      this.plugin.saveSettings();
+      void this.plugin.saveSettings();
       this.render();
     });
   }
@@ -551,15 +551,15 @@ class LinearCalendarView extends ItemView {
             },
           });
           eventEl.setText(event.title.substring(0, 10));
-          eventEl.addEventListener("click", (e) => {
-            e.stopPropagation();
-            this.openFile(event.file);
+          eventEl.addEventListener("click", (ev) => {
+            ev.stopPropagation();
+            void this.openFile(event.file);
           });
-          eventEl.addEventListener("keydown", (e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              e.stopPropagation();
-              this.openFile(event.file);
+          eventEl.addEventListener("keydown", (ev) => {
+            if (ev.key === "Enter" || ev.key === " ") {
+              ev.preventDefault();
+              ev.stopPropagation();
+              void this.openFile(event.file);
             }
           });
         }
@@ -571,12 +571,12 @@ class LinearCalendarView extends ItemView {
 
       // Click handler for day
       cell.addEventListener("click", () => {
-        this.openOrCreateDailyNote(date);
+        void this.openOrCreateDailyNote(date);
       });
-      cell.addEventListener("keydown", (e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          this.openOrCreateDailyNote(date);
+      cell.addEventListener("keydown", (ev) => {
+        if (ev.key === "Enter" || ev.key === " ") {
+          ev.preventDefault();
+          void this.openOrCreateDailyNote(date);
         }
       });
     }
@@ -618,7 +618,7 @@ class LinearCalendarView extends ItemView {
         }
         const newFile = await this.app.vault.create(path, "");
         await this.openFile(newFile);
-      } catch (e) {
+      } catch {
         // File might already exist, try to open it
         file = this.app.vault.getAbstractFileByPath(path);
         if (file instanceof TFile) {

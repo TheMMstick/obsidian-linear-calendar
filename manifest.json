@@ -1,7 +1,7 @@
 {
   "id": "linear-calendar",
   "name": "Linear Calendar",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "minAppVersion": "1.0.0",
   "description": "A year-at-a-glance linear calendar with weekday-aligned months.",
   "author": "themm",
