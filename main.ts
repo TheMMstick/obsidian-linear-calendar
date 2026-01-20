@@ -107,7 +107,7 @@ export default class LinearCalendarPlugin extends Plugin {
     }
 
     if (leaf) {
-      workspace.revealLeaf(leaf);
+      void workspace.revealLeaf(leaf);
     }
   }
 
@@ -142,7 +142,7 @@ class LinearCalendarView extends ItemView {
   }
 
   async onOpen(): Promise<void> {
-    await this.loadEvents();
+    this.loadEvents();
     this.render();
 
     this.registerEvent(
@@ -159,12 +159,12 @@ class LinearCalendarView extends ItemView {
     );
   }
 
-  private async refresh(): Promise<void> {
-    await this.loadEvents();
+  private refresh(): void {
+    this.loadEvents();
     this.render();
   }
 
-  private async loadEvents(): Promise<void> {
+  private loadEvents(): void {
     this.events.clear();
     const files = this.app.vault.getMarkdownFiles();
 
@@ -652,7 +652,7 @@ class LinearCalendarSettingTab extends PluginSettingTab {
       .setDesc("Folder where daily notes are stored (leave empty for vault root)")
       .addText((text) =>
         text
-          .setPlaceholder("daily")
+          .setPlaceholder("Daily")
           .setValue(this.plugin.settings.dailyNotesFolder)
           .onChange(async (value) => {
             this.plugin.settings.dailyNotesFolder = value;
@@ -665,7 +665,7 @@ class LinearCalendarSettingTab extends PluginSettingTab {
       .setDesc("Date format for daily note filenames (moment.js format)")
       .addText((text) =>
         text
-          .setPlaceholder("YYYY-MM-DD")
+          .setPlaceholder("E.g., YYYY-MM-DD")
           .setValue(this.plugin.settings.dailyNoteFormat)
           .onChange(async (value) => {
             this.plugin.settings.dailyNoteFormat = value;
@@ -680,7 +680,7 @@ class LinearCalendarSettingTab extends PluginSettingTab {
       .setDesc("Frontmatter fields to check for dates (comma-separated)")
       .addText((text) =>
         text
-          .setPlaceholder("date, created, due")
+          .setPlaceholder("Date, created, due")
           .setValue(this.plugin.settings.dateFields.join(", "))
           .onChange(async (value) => {
             this.plugin.settings.dateFields = value
@@ -710,7 +710,7 @@ class LinearCalendarSettingTab extends PluginSettingTab {
       .setDesc("Labels for weekdays starting Monday (comma-separated)")
       .addText((text) =>
         text
-          .setPlaceholder("M, T, W, T, F, S, S")
+          .setPlaceholder("E.g., M, T, W, T, F, S, S")
           .setValue(this.plugin.settings.weekdayLabels.join(", "))
           .onChange(async (value) => {
             const labels = value
@@ -729,7 +729,7 @@ class LinearCalendarSettingTab extends PluginSettingTab {
       .setDesc("Labels for months (comma-separated)")
       .addText((text) =>
         text
-          .setPlaceholder("Jan, Feb, Mar, ...")
+          .setPlaceholder("E.g., Jan, Feb, Mar, ...")
           .setValue(this.plugin.settings.monthLabels.join(", "))
           .onChange(async (value) => {
             const labels = value
